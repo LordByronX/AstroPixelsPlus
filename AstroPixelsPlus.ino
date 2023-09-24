@@ -183,6 +183,8 @@
 #define PIN_FRONT_LOGIC 15
 #define PIN_REAR_LOGIC 33
 #define PIN_FRONT_PSI 32
+#define PIN_FRONT_PSI2 13
+#define PIN_FRONT_PSI3 12
 #define PIN_REAR_PSI 23
 #define PIN_FRONT_HOLO 25
 #define PIN_REAR_HOLO 26
@@ -210,7 +212,75 @@
 #define SOUND_BAUD   9600
 
 ////////////////////////////////
+/// \private
+template <uint8_t DATA_PIN = FRONT_PSI_PIN>
+class EightLEDPSIPCB_FrontPSI : public FastLEDPCB<WS2812B, DATA_PIN, 8, 0, 8, 5, 5>
+{
+public:
+    static inline const byte* getLEDMap()
+    {
+        // Use dummy pixel 31 for no pixel
+        static const byte sLEDmap[] PROGMEM =
+        {
+            31, 31,  0, 31, 31,
+            31,  7, 31,  1, 31,
+            6,  31, 31, 31,  2,
+            31,  5, 31,  3, 31,
+            31, 31,  4, 31, 31
+        };
+        return sLEDmap;
+    }
+};
 
+template <uint8_t DATA_PIN = PIN_FRONT_PSI2>
+class EightLEDPSIPCB_FrontPSI2 : public FastLEDPCB<WS2812B, DATA_PIN, 8, 0, 8, 5, 5>
+{
+public:
+    static inline const byte* getLEDMap()
+    {
+        // Use dummy pixel 31 for no pixel
+        static const byte sLEDmap[] PROGMEM =
+        {
+            31, 31,  0, 31, 31,
+            31,  7, 31,  1, 31,
+            6,  31, 31, 31,  2,
+            31,  5, 31,  3, 31,
+            31, 31,  4, 31, 31
+        };
+        return sLEDmap;
+    }
+};
+
+template <uint8_t DATA_PIN = PIN_FRONT_PSI3>
+class EightLEDPSIPCB_FrontPSI3 : public FastLEDPCB<WS2812B, DATA_PIN, 8, 0, 8, 5, 5>
+{
+public:
+    static inline const byte* getLEDMap()
+    {
+        // Use dummy pixel 31 for no pixel
+        static const byte sLEDmap[] PROGMEM =
+        {
+            31, 31,  0, 31, 31,
+            31,  7, 31,  1, 31,
+            6,  31, 31, 31,  2,
+            31,  5, 31,  3, 31,
+            31, 31,  4, 31, 31
+        };
+        return sLEDmap;
+    }
+};
+
+
+template <uint8_t DATA_PIN = FRONT_PSI_PIN>
+using EightLEDFrontPSI = LogicEngineDisplay<EightLEDPSIPCB_FrontPSI<DATA_PIN>, LogicRenderGlyph5Pt, LogicEngineDefaults::PSICOLORWIPE>;
+
+template <uint8_t DATA_PIN2 = PIN_FRONT_PSI2>
+using EightLEDFrontPSI2 = LogicEngineDisplay<EightLEDPSIPCB_FrontPSI2<DATA_PIN2>, LogicRenderGlyph5Pt, LogicEngineDefaults::PSICOLORWIPE>;
+
+template <uint8_t DATA_PIN3 = PIN_FRONT_PSI3>
+using EightLEDFrontPSI3 = LogicEngineDisplay<EightLEDPSIPCB_FrontPSI3<DATA_PIN3>, LogicRenderGlyph5Pt, LogicEngineDefaults::PSICOLORWIPE>;
+
+/////////////////////////////////
 #if defined(USE_RSERIES_RLD_CURVED)
 LogicEngineCurvedRLD<PIN_REAR_LOGIC, PIN_REAR_LOGIC_CLOCK> RLD(LogicEngineRLDDefault, 3);
 #elif defined(USE_RSERIES_RLD)
@@ -225,7 +295,10 @@ LogicEngineDeathStarFLD<PIN_FRONT_LOGIC> FLD(LogicEngineFLDDefault, 1);
 AstroPixelFLD<PIN_FRONT_LOGIC> FLD(LogicEngineFLDDefault, 1);
 #endif
 
-AstroPixelFrontPSI<PIN_FRONT_PSI> frontPSI(LogicEngineFrontPSIDefault, 4);
+// AstroPixelFrontPSI<PIN_FRONT_PSI> frontPSI(LogicEngineFrontPSIDefault, 4);
+EightLEDFrontPSI<PIN_FRONT_PSI> frontPSI(LogicEngineFrontPSIDefault, 4);
+EightLEDFrontPSI2<PIN_FRONT_PSI2> frontPSI2(LogicEngineFrontPSIDefault, 4);
+EightLEDFrontPSI3<PIN_FRONT_PSI3> frontPSI3(LogicEngineFrontPSIDefault, 4);
 AstroPixelRearPSI<PIN_REAR_PSI> rearPSI(LogicEngineRearPSIDefault, 5);
 
 #if USE_HOLO_TEMPLATE
@@ -1066,7 +1139,7 @@ static void DisconnectRemote()
 }
 #endif
 
-////////////////
+//////////////// 3
 
 static unsigned sPos;
 static char sBuffer[CONSOLE_BUFFER_SIZE];
