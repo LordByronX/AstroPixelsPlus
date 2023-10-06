@@ -130,7 +130,7 @@
 ////////////////////////////////
 
 #define SERIAL2_RX_PIN 16
-#define SERIAL2_TX_PIN 17
+#define SERIAL2_TX_PIN 17  //marcduino serial send pin from R2Touch App or similar
 #define COMMAND_SERIAL Serial2
 
 ////////////////////////////////
@@ -193,7 +193,7 @@
 #define PIN_AUX2 4
 #define PIN_AUX3 5
 #define PIN_AUX4 18
-#define PIN_AUX5 19
+#define PIN_AUX5 19  // BadMotivator Pin
 
 #ifdef USE_RSERIES_RLD_CURVED
 // Define RSeries RLD clock pin to be AUX5 (could just as well be AUX1, AUX2, AUX3, or AUX4)
@@ -924,6 +924,8 @@ void setup()
     RLD.setLogicEffectSelector(CustomLogicEffectSelector);
     FLD.setLogicEffectSelector(CustomLogicEffectSelector);
     frontPSI.setLogicEffectSelector(CustomLogicEffectSelector);
+    frontPSI2.setLogicEffectSelector(CustomLogicEffectSelector);
+    frontPSI3.setLogicEffectSelector(CustomLogicEffectSelector);
     rearPSI.setLogicEffectSelector(CustomLogicEffectSelector);
 
 #ifdef USE_WIFI
